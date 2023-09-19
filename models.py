@@ -1,23 +1,26 @@
 import network_diffusion as nd
 import numpy as np
 
-from network_diffusion.models.utils.compartmental import CompartmentalGraph
 
-
-ALPHA = 0.05
-BETA = 0.1
+# ALFA, BETA are SIR parameters with values from sec. 2.3.1 in
+# https://www.mdpi.com/1099-4300/25/2/231.
+# GAMMA and EPSILON stands from awareness induced by mass media.
+# DELTA is a mass media factor + rate of symptomatic infections from paper: 
+# https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0249090.
+ALPHA = 0.19 
+BETA = 0.10
 GAMMA = 0.05
-DELTA = 1 - 0.4
-EPSILON = 0.05
+DELTA = GAMMA + 1 - 0.3 
+EPSILON = GAMMA
 
 
-def get_flu_model(l: int):
+def get_covid_model(l: int):
 
     # define processes, allowed states and initial % of actors in that states
-    phenomena = {"contagion": [["S", "I", "R"], [90, 5, 5]], "awareness": [["U", "A"], [95, 5]]}
+    phenomena = {"contagion": [["S", "I", "R"], [95, 2.5, 2.5]], "awareness": [["U", "A"], [95, 5]]}
 
     # wrap them into a compartments 
-    comp_g = CompartmentalGraph()
+    comp_g = nd.models.CompartmentalGraph()
     for phenomenon, [states, budget] in phenomena.items():
         comp_g.add(process_name=phenomenon, states=states)  # name of process
         comp_g.seeding_budget.update({phenomenon: budget})  # initial %s
