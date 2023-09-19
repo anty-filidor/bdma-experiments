@@ -4,11 +4,11 @@ import numpy as np
 from network_diffusion.models.utils.compartmental import CompartmentalGraph
 
 
-ALPHA = 0.3
+ALPHA = 0.05
 BETA = 0.1
-GAMMA = 0.25
-DELTA = 0.5
-EPSILON = 1
+GAMMA = 0.05
+DELTA = 1 - 0.4
+EPSILON = 0.05
 
 
 def get_flu_model(l: int):
