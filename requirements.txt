@@ -1,7 +1,6 @@
 ipykernel==6.25.2
 ipython==8.15.0
 matplotlib==3.7.3
-network-diffusion==0.12.0a6
 networkx==2.8.5
 numpy==1.25.2
 pandas==2.1.0
