@@ -7,10 +7,10 @@ import numpy as np
 # GAMMA and EPSILON stands from awareness induced by mass media.
 # DELTA is a mass media factor + rate of symptomatic infections from paper: 
 # https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0249090.
-ALPHA = 0.19 
+ALPHA = 0.19
 BETA = 0.10
 GAMMA = 0.05
-DELTA = GAMMA + 1 - 0.3 
+DELTA = GAMMA + 1 - 0.3
 EPSILON = GAMMA
 
 
@@ -31,7 +31,7 @@ def get_covid_model(l: int):
     comp_g.set_transition_fast("contagion.I", "contagion.R", ("awareness.U", ), BETA)
 
     # set up weights of transitions for SIR and aware
-    comp_g.set_transition_fast("contagion.S", "contagion.I", ("awareness.A", ), ALPHA * np.exp(-1 * l))
+    comp_g.set_transition_fast("contagion.S", "contagion.I", ("awareness.A", ), ALPHA * np.exp(-1 * l))  # a * {1, 0.35, 0.1} nic, maseczka lub sucial distancing, pełne obostrzenia
     comp_g.set_transition_fast("contagion.I", "contagion.R", ("awareness.A", ), BETA * np.exp(l))
 
     # set up weights of transitions for UA and suspected
