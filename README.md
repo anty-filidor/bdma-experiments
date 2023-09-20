@@ -1,11 +1,9 @@
 # BDMA experimental repo
 
-## Covid + Awareness
+## Suspected-Infected-Removed + Unaware-Aware
 
-Example of propagation coexisting processes that influence each other:
+Example of propagation coexisting processes that influence each other. Details
+of model in `sir_ua.drawio`. Run eperiments with `sir_ua.ipynb`.
 
-ALPHA = 0.05                # infection rate  
-BETA = 0.1                  # recovery rate
-GAMMA = 0.05                # mass media factor  
-DELTA = GAMMA + (1 - 0.3)   # mass media factor + rate of symptomatic infections  
-EPSILON = GAMMA             # mass media factor  
+## Another models
+To be done...

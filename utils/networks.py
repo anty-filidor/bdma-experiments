@@ -14,7 +14,7 @@ def get_sf_net():
 
 
 def get_aucs_network():
-    net = nd.MultilayerNetwork.from_mpx(file_path="utils/aucs.mpx")
+    net = nd.MultilayerNetwork.from_mpx(file_path="data/aucs.mpx")
     net.layers.pop('coauthor')
     net.layers.pop('lunch')
     net.layers.pop('leisure')
