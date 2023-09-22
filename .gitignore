@@ -1,2 +1,4 @@
 **/__pycache__
 **/*.dtmp
+**/.DS_Store
+.vscode

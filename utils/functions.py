@@ -1,7 +1,16 @@
+import os
+import random
+
 from typing import List
 
 import numpy as np
 import pandas as pd
+
+
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    os.environ["PYTHONHASHSEED"] = str(seed)
 
 
 def get_mean_log(logs: List[pd.DataFrame]):
