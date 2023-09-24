@@ -34,8 +34,8 @@ python -m ipykernel install --user --name bdma
 ```
 
 ## Suspected-Infected-Removed + Unaware-Aware
-Example of propagation coexisting processes that influence each other. Details
-of model in `sir_ua.drawio`. Run eperiments with `sir_ua.ipynb`.
+Example of propagation coexisting processes that influence each other. Perform
+experiments from `sir_ua.ipynb` Details of model and results in diretory `sir_ua`.
 
 ## UTS model
 <here a short description>
