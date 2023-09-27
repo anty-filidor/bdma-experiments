@@ -50,11 +50,17 @@ def get_metrics(experiment_results):
     return epochs, start_A, start_B, final_A, final_B
 
 
-def visualize_results_as_heatmap(results_df, index, columns, values, title, colorbar_label=None, x_label=None,
-                                 y_label=None):
+def visualize_results_as_heatmap(results_df, index, columns, values, title, normalize=True, colorbar_label=None,
+                                 x_label=None, y_label=None):
     methods = results_df['method'].unique()
     fig, axes = plt.subplots(1, len(methods), figsize=(12, 6))
     fig.suptitle(title, fontsize=16)
+
+    if normalize:
+        agents_sum = sum([results_df[c][0] for c in results_df.columns if c.startswith('start_')])
+        for c in results_df.columns:
+            if c.startswith('start_') or c.startswith('final_'):
+                results_df[c] = results_df[c]/agents_sum
 
     vmin = results_df[values].min()
     vmax = results_df[values].max()
@@ -87,7 +93,7 @@ def visualize_results_as_heatmap(results_df, index, columns, values, title, colo
 
         for j in range(len(y_labels)):
             for k in range(len(x_labels)):
-                ax.text(k, j, heatmap_data[j, k], ha='center', va='center', color='black')
+                ax.text(k, j, "{:.2f}".format(heatmap_data[j, k]), ha='center', va='center', color='black')
 
         # Set labels for the x and y axes
         x_label = x_label if x_label else columns
