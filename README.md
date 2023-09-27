@@ -1,4 +1,8 @@
-# BDMA experimental repo
+# Network Diffusion – Framework to Simulate Spreading Processes in Complex Networks
+
+This repository contains code used to perform experiments and analyse results 
+that have been attached to a paper submitted to 
+[Big Data Mining and Analytics](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=8254253).
 
 ## Importing Network Diffusion library
 Currently we're working on unstable version of the package and it's expected to
@@ -24,7 +28,7 @@ git submodule init
 git submodule update
 ```
 
-## Installation of env
+## Installation of environment
 ```
 conda create --name bdma -y python=3.10
 conda activate bdma
@@ -34,11 +38,14 @@ python -m ipykernel install --user --name bdma
 ```
 
 ## Suspected-Infected-Removed + Unaware-Aware
-Example of propagation coexisting processes that influence each other. Perform
-experiments from `sir_ua.ipynb` Details of model and results in diretory `sir_ua`.
+Example of propagation two coexisting processes that influence each other: 
+disease (following SIR model) and awarenes (following UA model). Perform 
+experiments from `sir_ua.ipynb`. Details of model and results in diretory `sir_ua`.
 
 ## UTS model
 <here a short description>
 
-## Another models
-To be done...
+## Temporal Network Epistemology Model + CogSNet / Static Network
+Comparison of a spreading of the Temporal Network Epistemology on two different
+network models built from the same temporal edge list. Preform experiments with
+`tnem_cogsnet.ipynb`. Results will be saved in `tnem_cogsnet` directory.
