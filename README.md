@@ -42,8 +42,10 @@ Example of propagation two coexisting processes that influence each other:
 disease (following SIR model) and awarenes (following UA model). Perform 
 experiments from `sir_ua.ipynb`. Details of model and results in diretory `sir_ua`.
 
-## UTS model
-<here a short description>
+## Multilayer Independent Cascade Model initialised with Minimum Dominating Set
+Example of propagation of Independent Cascade Model in multilayer networks with
+various seed selection methods. Especially a comparision of Minimum Dominating Set
+(a concept from domain of netork controlability) with centrality metrics.
 
 ## Temporal Network Epistemology Model + CogSNet / Static Network
 Comparison of a spreading of the Temporal Network Epistemology on two different

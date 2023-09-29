@@ -1,10 +1,11 @@
 import os
 import random
 
-from typing import List
+from typing import List, Tuple
 
 import matplotlib.pyplot as plt
 import networkx as nx
+import network_diffusion as nd
 import numpy as np
 import pandas as pd
 
@@ -13,6 +14,14 @@ def set_seed(seed):
     random.seed(seed)
     np.random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
+
+
+def convert_micm_logs(logs: nd.Logger, patience: int) -> Tuple[int, int]:
+    dict_last_epoch_state = logs._local_stats[len(logs._local_stats)-1]
+    df_last_epoch_state = pd.DataFrame(dict_last_epoch_state)
+    nb_activated_actors = len(df_last_epoch_state[df_last_epoch_state["new_state"] == '-1']["node_name"].unique())
+    nb_epochs_spread = len(logs._global_stats_converted.popitem()[1]) - 1 - patience
+    return nb_activated_actors, nb_epochs_spread
 
 
 def get_mean_log(logs: List[pd.DataFrame]):
