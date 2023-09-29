@@ -4,6 +4,7 @@ import random
 from typing import List
 
 import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 import pandas as pd
 
@@ -36,7 +37,8 @@ def get_metrics(experiment_results):
     final_A_vals = []
     final_B_vals = []
     for i, experiment_res in enumerate(experiment_results):
-        experiment_res = experiment_res._global_stats_converted['layer_1']
+        layer = list(experiment_res._global_stats_converted.keys())[0]
+        experiment_res = experiment_res._global_stats_converted[layer]
         epochs_vals.append(experiment_res.shape[0])
         start_A_vals.append(experiment_res.iloc[0, 0])
         start_B_vals.append(experiment_res.iloc[0, 1])
@@ -52,7 +54,7 @@ def get_metrics(experiment_results):
 
 def visualize_results_as_heatmap(results_df, index, columns, values, title, normalize=True, colorbar_label=None,
                                  x_label=None, y_label=None):
-    methods = results_df['method'].unique()
+    methods = sorted(results_df['method'].unique())
     fig, axes = plt.subplots(1, len(methods), figsize=(12, 6))
     fig.suptitle(title, fontsize=16)
 
@@ -105,3 +107,42 @@ def visualize_results_as_heatmap(results_df, index, columns, values, title, norm
     plt.tight_layout(rect=[0, 0, 1, 0.92])
     # Show the heatmap
     plt.show()
+
+
+def preprocess_temporal_network(network, theta, undirected=False):
+    layer_name = list(network.snaps[0].layers.keys())[0]
+    for snap in network.snaps:
+        # 1. Drop selfloops
+        snap[layer_name].remove_edges_from(nx.selfloop_edges(snap[layer_name]))
+
+        # 2. Drop edges below theta
+        drop_edges = list(filter(lambda e: e[2] <= theta, (e for e in snap[layer_name].edges.data('weight'))))
+        drop_edges_ids = list(e[:2] for e in drop_edges)
+        snap[layer_name].remove_edges_from(drop_edges_ids)
+        if undirected:
+            snap.layers[layer_name] = snap.layers[layer_name].to_undirected()
+    return network
+
+
+def compare_nets(n1, n2):
+    n1_layer_name = list(n1.snaps[0].layers.keys())[0]
+    n2_layer_name = list(n2.snaps[0].layers.keys())[0]
+    n1_edges_no = []
+    n2_edges_no = []
+    snapshots = list(zip(n1.snaps, n2.snaps))
+    for s1, s2 in snapshots:
+        n1_edges_no.append(len(s1[n1_layer_name].edges))
+        n2_edges_no.append(len(s2[n2_layer_name].edges))
+    x = list(range(0, len(snapshots)))
+    plt.plot(x, n1_edges_no)
+    plt.plot(x, n2_edges_no)
+    plt.show()
+
+
+def create_static_network(event_data_path: str, delimiter: str, undirected=False, source='Sender', target='Recipient'):
+    df_interactions = pd.read_csv(event_data_path, delimiter=delimiter)
+    df_interactions = df_interactions[[source, target]]
+    method = nx.Graph if undirected else nx.DiGraph
+    static_graph = nx.from_pandas_edgelist(df_interactions, source=source, target=target, create_using=method)
+    static_graph.remove_edges_from(nx.selfloop_edges(static_graph))
+    return static_graph
