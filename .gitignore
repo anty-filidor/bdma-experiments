@@ -2,3 +2,4 @@
 **/*.dtmp
 **/.DS_Store
 .vscode
+**/*.pickle
