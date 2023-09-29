@@ -56,3 +56,7 @@ network models built from the same temporal edge list. Preform experiments with
 Comparison of a spreading of the Temporal Linear Threshold Model on two different
 network models built from the same temporal edge list. Preform experiments with
 `mltm_cogsnet.ipynb`. Results will be saved in `mltm_cogsnet` directory.
+
+## Efficiency test
+Comparison of time efficiency of models used in experiments. Execute them with 
+`efficiency_test.ipynb`. Results will be saved in `efficiency_test` directory.

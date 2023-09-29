@@ -183,3 +183,44 @@ class SIR_UAModel(nd.models.BaseModel):
 
     def get_allowed_states(self, net: nd.MultilayerNetwork) -> Dict[str, Tuple[str, ...]]:
         return self._compartmental_graph.get_compartments()
+
+
+def get_ltm():
+    return nd.models.MLTModel(
+        seeding_budget=[95, 5],
+        seed_selector=nd.seeding.RandomSeedSelector(),
+        protocol="AND",
+        mi_value=0.7,
+    )
+
+
+def get_icm():
+    return nd.models.MICModel(
+        seeding_budget=[95, 5, 0],
+        seed_selector=nd.seeding.RandomSeedSelector(),
+        protocol="AND",
+        probability=0.7,
+    )
+
+
+def get_tnem():
+    return nd.models.TemporalNetworkEpistemologyModel(
+        seeding_budget=[95, 5],
+        seed_selector=nd.seeding.RandomSeedSelector(),
+        trials_nr=2,
+        epsilon=0.05,
+    )
+
+
+def get_sirua():
+    return SIR_UAModel(
+        alpha=0.19,
+        beta=0.10,
+        alpha_prime=0.019,
+        beta_prime=0.10,
+        gamma=0.01,
+        delta=0.71,
+        epsilon=0.01,
+        ill_seeds=5,
+        aware_seeds=5,
+    )
