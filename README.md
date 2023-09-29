@@ -51,3 +51,8 @@ various seed selection methods. Especially a comparision of Minimum Dominating S
 Comparison of a spreading of the Temporal Network Epistemology on two different
 network models built from the same temporal edge list. Preform experiments with
 `tnem_cogsnet.ipynb`. Results will be saved in `tnem_cogsnet` directory.
+
+## Temporal Linear Threshold Model + CogSNet / Static Network
+Comparison of a spreading of the Temporal Linear Threshold Model on two different
+network models built from the same temporal edge list. Preform experiments with
+`mltm_cogsnet.ipynb`. Results will be saved in `mltm_cogsnet` directory.
