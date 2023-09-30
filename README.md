@@ -4,36 +4,12 @@ This repository contains code used to perform experiments and analyse results
 that have been attached to a paper submitted to 
 [Big Data Mining and Analytics](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=8254253).
 
-## Importing Network Diffusion library
-Currently we're working on unstable version of the package and it's expected to
-observe bugs. Therefore instead of installing it via PIP, we will clone it as
-a git submodule. With this approach we will mimic that Network Diffusion is 
-installed in our environment, and, at the same time, w will have easy access 
-to its source code to report and fix bugses. The ultimate version of this repo
-will work with PIP based Network Diffusion, but we will change that after
-experiments are prepared and all noted bugs solved.
-
-Adding new submodule (in case of any new needed):
-```
-mkdir submodules
-git submodule add https://github.com/anty-filidor/network_diffusion ./submodules/network_diffusion
-ln -s submodules/network_diffusion/network_diffusion network_diffusion  
-cd submodules/network_diffusion
-git checkout fix-bdma-paper
-```
-
-Cloning submodule while cloning this repo (a default way to get library right now):
-```
-git submodule init
-git submodule update
-```
-
 ## Installation of environment
 ```
 conda create --name bdma -y python=3.10
 conda activate bdma
 pip install -r requirements.txt
-pip install -r submodules/network_diffusion/requirements/production.txt
+pip install network_diffusion==0.13.0
 python -m ipykernel install --user --name bdma
 ```
 
