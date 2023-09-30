@@ -4,6 +4,10 @@ This repository contains code used to perform experiments and analyse results
 that have been attached to a paper submitted to 
 [Big Data Mining and Analytics](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=8254253).
 
+
+The Network Diffusion package (a backbone of the expermients) is available on [PyPI](https://pypi.org/project/network-diffusion/) 
+and [GitHub](https://github.com/anty-filidor/network_diffusion).
+
 ## Installation of environment
 ```
 conda create --name bdma -y python=3.10
