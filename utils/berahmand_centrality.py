@@ -1,5 +1,5 @@
 """
-This script contains Python implementation of CI algorithm.
+This script contains Python implementation of a Berahmand centrailty algorithm.
 
 It was published by: Kamal Berahmand, Asgarali Bouyer, Negin Samadi as: "A new
 centrality measure based on the negative and positive effects of clustering 
@@ -7,14 +7,15 @@ coefficient for identifying influential spreaders in complex networks" in "
 Chaos, Solitons & Fractals",  Volume 110, 2018, Pages 41-54, ISSN 0960-0779,
 DOI: https://doi.org/10.1016/j.chaos.2018.03.014.
 """
-from typing import Dict
+from typing import Any, Dict, List
 
 import networkx as nx
+import network_diffusion as nd
 
 
 def berahmand_centrality(graph: nx.Graph) -> Dict[int, float]:
     """
-    Implementation of a method proposed in the paper.
+    Implementation of Berahmand centrailty.
 
     Please note, that we are using an implementation of clustering coefficient 
     provided by NetworkX. It returns slightly different values than these 
@@ -42,9 +43,35 @@ def berahmand_centrality(graph: nx.Graph) -> Dict[int, float]:
     return ci_dict
 
 
-if __name__ =="__main__":
-    # an example of the centrality according to the original paper
+class BerahmandCentralitySelector(nd.seeding.base_selector.BaseSeedSelector):
+    """Seed selector based on Berahmand centrailty algorithm."""
 
+    @staticmethod
+    def _calculate_ranking_list(graph: nx.Graph) -> List[Any]:
+        """
+        Create a ranking of nodes.
+
+        :param graph: single layer graph to compute ranking for
+        :return: list of node-ids ordered descending by their ranking position
+        """
+        ranking_dict = berahmand_centrality(graph=graph)
+        ranked_nodes = sorted(ranking_dict, key=lambda x: ranking_dict[x], reverse=True)
+        if len(ranked_nodes) != len(graph.nodes): raise ValueError
+        return ranked_nodes
+
+    def __str__(self) -> str:
+        """Return seed method's description."""
+        return "Berahmand centrailty-based seed selection method."
+
+    def actorwise(self, net: nd.MultilayerNetwork) -> List[nd.MLNetworkActor]:
+        """Compute ranking for actors."""
+        return nd.seeding.base_selector.node_to_actor_ranking(super().nodewise(net), net)
+
+
+if __name__ =="__main__":
+    """An example of the centrality according to the original paper."""
+
+    # create a network
     edge_list = [
         [1, 5], [1, 4], [1, 3], [1, 2], [1, 7], [1, 6],
 
@@ -79,14 +106,20 @@ if __name__ =="__main__":
         [9, 7], [9, 8],
         [8, 7],
     ]
-
     G = nx.from_edgelist(edge_list)
 
+    # visualise it
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots(ncols=1, nrows=1)
     nx.draw(G, pos=nx.spring_layout(G), ax=ax, with_labels=True)
     plt.show()
 
+    # compute the centrailty values
     centralities = berahmand_centrality(G)
     for node in sorted(G.nodes()):
         print(f"{node}: {centralities[node]}")
+
+    # test its integration with a Network DIffusion framework: create a 
+    # single-layer multilayer network and then feed a seed selector with it
+    multilayer_G = nd.MultilayerNetwork.from_nx_layers([G], ["l1"])
+    print(BerahmandCentralitySelector()(multilayer_G))
