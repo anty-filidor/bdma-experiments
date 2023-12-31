@@ -28,15 +28,15 @@ def berahmand_centrality(graph: nx.Graph) -> Dict[int, float]:
     ci_dict = {}
 
     # get global measures
-    K = nx.degree(G)
-    CC = nx.clustering(G)
+    K = nx.degree(graph)
+    CC = nx.clustering(graph)
 
     # compute centrality for each node
     for i in graph.nodes():
         k_i = K[i]
         cc_i = CC[i]
-        neigh_1st_i = {*nx.neighbors(G, i)}
-        neigh_2nd_i = set().union(*[{*nx.neighbors(G, n)} for n in neigh_1st_i]).difference({i})
+        neigh_1st_i = {*nx.neighbors(graph, i)}
+        neigh_2nd_i = set().union(*[{*nx.neighbors(graph, n)} for n in neigh_1st_i]).difference({i})
         centrality_i = k_i * 1 / (cc_i + 1 / k_i) + sum([CC[n] for n in neigh_2nd_i])
         ci_dict[i] = centrality_i
 
